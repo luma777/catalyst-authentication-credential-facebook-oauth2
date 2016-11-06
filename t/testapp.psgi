@@ -3,6 +3,5 @@ use warnings;
 
 use TestApp;
 
-TestApp->setup_engine('PSGI');
-
-my $app = sub { TestApp->run(@_) };
+my $app = TestApp->apply_default_middlewares(TestApp->psgi_app);
+$app;

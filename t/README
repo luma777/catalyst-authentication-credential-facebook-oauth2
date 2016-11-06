@@ -14,6 +14,10 @@ using:
   $ cd t
   $ FACEBOOK_APPLICATION_ID=foo FACEBOOK_APPLICATION_SECRET=bar plackup -I../lib -Ilib testapp.psgi
 
+  Display Popup
+  $ FACEBOOK_DISPLAY=popup FACEBOOK_APPLICATION_ID=foo FACEBOOK_APPLICATION_SECRET=bar \
+    plackup -I../lib -Ilib testapp.psgi
+
 Then point your browser at http://localhost:5000/auth
 
 You should be redirected to a site at Facebook, asking you to confirm. Once

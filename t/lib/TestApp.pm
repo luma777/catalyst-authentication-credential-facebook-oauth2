@@ -11,6 +11,7 @@ __PACKAGE__->config(
                 class              => 'Facebook::OAuth2',
                 application_id     => $ENV{FACEBOOK_APPLICATION_ID},
                 application_secret => $ENV{FACEBOOK_APPLICATION_SECRET},
+                display            => $ENV{FACEBOOK_DISPLAY} || 'page'
             },
             store => {
                 class => 'Null',

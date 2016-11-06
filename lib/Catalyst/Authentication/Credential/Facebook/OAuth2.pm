@@ -81,6 +81,17 @@ has oauth_args => (
     default => sub { [] },
 );
 
+=attr display
+
+Setting a display option, "page" or "popup" are available. "page" is default option.
+
+=cut
+has display => (
+    is => 'ro',
+    isa => NonEmptySimpleStr,
+    default => sub { "page" }
+);
+
 sub _build_oauth {
     my ($self, @args) = @_;
 
@@ -102,8 +113,6 @@ sub BUILDARGS {
 
     my $user = $ctx->authenticate({
         scope => ['offline_access', 'publish_stream'],
-        display => 'popup',
-        reauthenticate => 0
     });
 
 Attempts to authenticate a user by using Facebook's OAuth 2.0 interface. This
@@ -157,16 +166,10 @@ sub authenticate {
     unless (defined(my $code = $ctx->request->params->{code})) {
         my $auth_url = $oauth->authorize
             ->extend_permissions(@{ $auth_info->{scope} })
-            ->set_display( $auth_info->{display} || 'page' )
+            ->set_display($self->display)
             ->uri_as_string;
 
-        ## support reauthenticate
-        if ($auth_info->{reauthenticate}) {
-            $auth_url .= '&auth_type=reauthenticate';
-        }
-
         $ctx->response->redirect($auth_url);
-
         return;
     }
     else {
